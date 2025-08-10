@@ -22,8 +22,8 @@ export default function MouseTrail() {
     <>
       {/* Outer Border Circle */}
       <div
-        className={`border-2 border-green-200 rounded-full fixed pointer-events-none transition-all duration-300 ease-out ${
-          isPointer ? "w-9 h-9" : "w-6 h-6"
+        className={`border-2 z-100 border-green-200 rounded-full fixed pointer-events-none transition-all duration-300 ease-out ${
+          isPointer ? "w-8 h-8" : "w-6 h-6"
         }`}
         style={{
           left: position.x,

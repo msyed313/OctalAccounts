@@ -17,21 +17,12 @@ import { useGSAP } from '@gsap/react';
 import { NavLink } from "react-router-dom";
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [featuresOpen, setFeaturesOpen] = useState(false);
+  const [mobilefeaturesOpen, setMobileFeaturesOpen] = useState(false);
   const menuRef = useRef();
   const menuIconRef = useRef();
   const buttonRef = useRef();
-  const handleMouseEnter = () => {
-    setTimeout(() => {
-      setServicesOpen(true);
-    }, 200); // 200ms ka delay
-  };
-
-  const handleMouseLeave = () => {
-    setTimeout(() => {
-      setServicesOpen(false);
-    }, 200); // 200ms ka delay
-  };
 
   // Handle menu toggle
   const openMenu = () => {
@@ -120,7 +111,7 @@ const Header = () => {
   ];
 
   return (
-    <header className=" bg-[#9D256B] text-white py-4 px-6 flex items-center justify-between fixed  top-5 left-5 right-5 z-50 shadow-lg">
+    <header className="fixed bg-gray-100 py-4 px-6 flex items-center justify-between top-5 left-5 right-5 z-50 shadow-lg rounded-3xl h-16">
 
       {/* Logo */}
       <div className="font-bold flex items-center">
@@ -132,18 +123,18 @@ const Header = () => {
         {/* Menu Card */}
 
         <nav ref={menuRef} className={`absolute flex gap-5 text-white p-2  right-36`}>
-          <NavLink to="/home" className="text-white font-semibold text-lg">Home</NavLink>
-          <NavLink to="/about" className="text-white font-semibold text-lg">About</NavLink>
-          <NavLink to="/about" className="text-white font-semibold text-lg">FBR Digital Invoicing</NavLink>
+          <NavLink to="/home" className="text-black font-semibold text-lg">Home</NavLink>
+          <NavLink to="/about" className="text-black font-semibold text-lg">About</NavLink>
+          <NavLink to="/fbr" className="text-black font-semibold text-lg">FBR Digital Invoicing</NavLink>
           <div
             className="group relative"
 
           >
             <NavLink
               // to="/services"
-              className="text-white font-semibold text-xl"
-              aria-expanded={servicesOpen}
-              onClick={() => setServicesOpen(true)}
+              className="text-black font-semibold text-xl"
+              aria-expanded={featuresOpen}
+              onClick={() => setFeaturesOpen(true)}
             >
               Features
             </NavLink>
@@ -152,29 +143,37 @@ const Header = () => {
           </div>
 
 
-          <NavLink  className="text-white font-semibold text-lg">Support</NavLink>
-          
+          <NavLink className="text-black font-semibold text-lg">Support</NavLink>
+
 
         </nav>
-        <button ref={menuIconRef} onClick={openMenu} className="hover:cursor-pointer">
+        <button ref={menuIconRef}
+          onClick={() => {
+            if (window.innerWidth >= 768) {
+              openMenu(); // Large screen ka logic
+            } else {
+              setMenuOpen(!menuOpen); // Mobile ka logic
+            }
+          }}
+          className="hover:cursor-pointer">
           {
-            isOpen ? <X size={35} /> : <Menu size={35} />
+            isOpen || menuOpen ? <X size={35} /> : <Menu size={35} />
           }
         </button>
-        <button ref={buttonRef} className={` bg-white text-[#9D256B] px-4 py-2 rounded-lg font-semibold`}>
+        <button ref={buttonRef} className={`md:block hidden bg-[#9D256B] text-white px-4 py-2 rounded-lg font-semibold`}>
           Login
         </button>
 
       </div>
       {/* Full-width dropdown inside header */}
       <div
-        className={`${servicesOpen? "flex" : "hidden"} mx-auto max-w-6xl absolute left-0 right-0 top-20 bg-white shadow-md transition-all duration-300 z-50 
+        className={`${featuresOpen ? "flex" : "hidden"} mx-auto max-w-6xl absolute left-0 right-0 top-20 bg-white shadow-md transition-all duration-300 z-50 
                 }`}
         style={{ transformOrigin: "top" }}
       >
         <div className="max-w-6xl mx-auto p-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
           {features.map((feature, index) => (
-            <NavLink onClick={() => setServicesOpen(false)} key={index} className="flex items-center space-x-4 mx-auto">
+            <NavLink onClick={() => setFeaturesOpen(false)} key={index} className="flex items-center space-x-4 mx-auto">
               {feature.icon}
               <div>
                 <h3 className="font-semibold text-gray-800 text-xl">{feature.title}</h3>
@@ -183,7 +182,49 @@ const Header = () => {
             </NavLink>
           ))}
         </div>
+
       </div>
+
+    
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div className="absolute md:hidden bg-white shadow-md py-4 left-0 right-0 max-h-[80vh] overflow-y-auto z-50 top-full rounded-2xl">
+          <nav className="flex flex-col px-6 space-y-4">
+            <NavLink className="text-lg font-semibold" to="/home" onClick={() => setMenuOpen(false)}>Home</NavLink>
+            <NavLink className="text-lg font-semibold" to="/about" onClick={() => setMenuOpen(false)}>About Us</NavLink>
+            <NavLink className="text-lg font-semibold" to="/about" onClick={() => setMenuOpen(false)}>FBR Digital Invoicing</NavLink>
+            <p
+              className="text-lg font-semibold hover:cursor-pointer"
+              onClick={() => setMobileFeaturesOpen(!mobilefeaturesOpen)}
+            >
+              Features
+            </p>
+
+            {/* Features Dropdown inside Mobile Menu */}
+            <div className={mobilefeaturesOpen ? "flex flex-col mt-2 ml-6 p-2" : "hidden"}>
+              <NavLink to="/revenue-cycle" onClick={() => setMenuOpen(false)} className="block px-4 py-2 font-semibold">Sales Management</NavLink>
+              <NavLink to="/credentialing" onClick={() => setMenuOpen(false)} className="block px-4 py-2 font-semibold">Purchases & Expense</NavLink>
+              <NavLink to="/medical-coding" onClick={() => setMenuOpen(false)} className="block px-4 py-2 font-semibold">Inventory & Stock Control</NavLink>
+              <NavLink to="/billing-services" onClick={() => setMenuOpen(false)} className="block px-4 py-2 font-semibold">Manufacturing & Assembly</NavLink>
+              <NavLink to="/compliance-report" onClick={() => setMenuOpen(false)} className="block px-4 py-2 font-semibold">Batch Tracking</NavLink>
+              <NavLink to="/dental-service" onClick={() => setMenuOpen(false)} className="block px-4 py-2 font-semibold">Multi-Currency Accounting </NavLink>
+              <NavLink to="/revenue-cycle" onClick={() => setMenuOpen(false)} className="block px-4 py-2 font-semibold">Business Insights</NavLink>
+              <NavLink to="/credentialing" onClick={() => setMenuOpen(false)} className="block px-4 py-2 font-semibold">User Access Control</NavLink>
+              <NavLink to="/medical-coding" onClick={() => setMenuOpen(false)} className="block px-4 py-2 font-semibold">Data Security & Backup</NavLink>
+              <NavLink to="/billing-services" onClick={() => setMenuOpen(false)} className="block px-4 py-2 font-semibold">Seamless Integration</NavLink>
+            </div>
+
+            <NavLink className="text-lg font-semibold" to="/about" onClick={() => setMenuOpen(false)}>Support</NavLink>
+            <NavLink to="/contact" onClick={() => setMenuOpen(false)}>
+              <button className="bg-[#9D256B] text-lg font-semibold text-white px-4 py-2 rounded-md ">
+                Login
+              </button>
+            </NavLink>
+          </nav>
+        </div>
+      )}
+
+
     </header>
   );
 };
