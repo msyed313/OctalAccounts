@@ -9,7 +9,7 @@ function App() {
   return (
     <>
       <p className="text-3xl font-bold underline">
-        Hello world!
+        Hello world! Welcome to my new project
       </p>
     </>
   )
