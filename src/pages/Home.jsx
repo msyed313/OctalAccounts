@@ -76,7 +76,7 @@ function Home() {
                 </div>
                 <div ref={rightRef} className="md:w-[40%] mt-20 md:mt-0 relative">
                     <img
-                        src="../../public/assets/dashboard.jpg"
+                        src="/assets/dashboard.jpg"
                         alt="Dashboard"
                         className="rounded-lg shadow-lg w-[80%] md:w-[90%] h-auto"
                     />
