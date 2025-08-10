@@ -2,16 +2,26 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { RouterProvider,createBrowserRouter } from 'react-router-dom'
+import Layout from './Layout'
+import Home from './pages/Home'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const routes=createBrowserRouter([
+    {
+      path:'/',
+      element:<Layout />,
+      children:[
+        {
+           path:"",
+           element:<Home />
+        }
+      ]
+    }
+   ])
 
   return (
-    <>
-      <p className="text-3xl font-bold underline">
-        Hello world! Welcome to my new project
-      </p>
-    </>
+    <RouterProvider router={routes} />
   )
 }
 
