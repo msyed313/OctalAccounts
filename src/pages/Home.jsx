@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { Check } from 'lucide-react'
 function Home() {
   return (
     <div className="bg-[#f9f9fc] min-h-screen flex flex-col justify-center px-6 md:px-16 py-10">
