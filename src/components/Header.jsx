@@ -50,11 +50,11 @@ const Header = () => {
     }
   }, [isOpen]);
   return (
-    <header className="bg-[#9D256B] text-white py-4 px-6 flex items-center justify-between">
+    <header className="bg-[#9D256B] text-white py-4 px-6 flex items-center justify-between fixed  top-5 left-5 right-5 z-50 shadow-lg">
 
       {/* Logo */}
-      <div className="text-2xl font-bold flex items-center">
-        <img src="/assets/wolf.png" alt="Zingo Logo" className="h-14" />
+      <div className="font-bold flex items-center">
+        <p className="text-purple-600 text-3xl">Octal<span className="text-green-400">Accounts</span></p>
       </div>
 
       {/* Buttons */}

@@ -22,8 +22,8 @@ export default function MouseTrail() {
     <>
       {/* Outer Border Circle */}
       <div
-        className={`border-2 border-white rounded-full fixed pointer-events-none transition-all duration-300 ease-out ${
-          isPointer ? "w-16 h-16" : "w-9 h-9"
+        className={`border-2 border-green-200 rounded-full fixed pointer-events-none transition-all duration-300 ease-out ${
+          isPointer ? "w-9 h-9" : "w-6 h-6"
         }`}
         style={{
           left: position.x,
@@ -32,7 +32,7 @@ export default function MouseTrail() {
         }}
       ></div>
 
-      {/* Small White Dot (Cursor Follower) - Hide if Pointer */}
+      {/* Small White Dot (Cursor Follower) - Hide if Pointer
       {!isPointer && (
         <div
           className="w-2 h-2 bg-white rounded-full fixed"
@@ -41,8 +41,10 @@ export default function MouseTrail() {
             top: position.y,
             transform: "translate(-50%, -50%)",
           }}
-        ></div>
-      )}
+        > 
+
+        </div>
+      )}*/}
     </>
   );
 }
