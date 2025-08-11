@@ -1,0 +1,31 @@
+.moving-text-wrapper {
+    overflow: hidden;
+    white-space: nowrap;
+    background: rgb(83, 158, 83);
+    padding: 20px 0;
+    transform: rotate(-3deg);
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.moving-text {
+    display: inline-block;
+    white-space: nowrap;
+    animation: scrollText 40s linear infinite;
+}
+
+.moving-text span {
+    display: inline-block;
+    padding: 0 2rem; /* Space between words */
+    font-size: 24px;
+    color: #fff;
+}
+
+@keyframes scrollText {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}

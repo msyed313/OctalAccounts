@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import {
   X, Menu, DollarSign,
   ShoppingCart,
@@ -20,9 +20,44 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [featuresOpen, setFeaturesOpen] = useState(false);
   const [mobilefeaturesOpen, setMobileFeaturesOpen] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const headerRef = useRef();
   const menuRef = useRef();
   const menuIconRef = useRef();
   const buttonRef = useRef();
+
+  // Scroll hide/show logic
+  useEffect(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (window.scrollY > lastScrollY && window.scrollY > 50) {
+            // Scroll down → hide
+            gsap.to(headerRef.current, {
+              y: "-150%",
+              duration: 0.7,
+              ease: "power2.out",
+            });
+          } else {
+            // Scroll up → show
+            gsap.to(headerRef.current, {
+              y: "0%",
+              duration: 0.7,
+              ease: "power2.out",
+            });
+          }
+          setLastScrollY(window.scrollY);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [lastScrollY]);
 
   // Handle menu toggle
   const openMenu = () => {
@@ -111,7 +146,7 @@ const Header = () => {
   ];
 
   return (
-    <header className="fixed bg-gray-100 py-4 px-6 flex items-center justify-between top-5 left-5 right-5 z-50 shadow-lg rounded-3xl h-16">
+    <header ref={headerRef} className=" fixed bg-gray-100 py-4 px-6 flex items-center justify-between top-5 left-5 right-5 z-50 shadow-lg rounded-3xl h-16">
 
       {/* Logo */}
       <div className="font-bold flex items-center">
@@ -160,9 +195,9 @@ const Header = () => {
             isOpen || menuOpen ? <X size={35} /> : <Menu size={35} />
           }
         </button>
-        <button ref={buttonRef} className={`md:block hidden bg-[#9D256B] text-white px-4 py-2 rounded-lg font-semibold`}>
+        <NavLink to="/login" ref={buttonRef} className={`md:block hidden bg-[#9D256B] text-white px-4 py-2 rounded-lg font-semibold`}>
           Login
-        </button>
+        </NavLink>
 
       </div>
       {/* Full-width dropdown inside header */}
@@ -215,7 +250,7 @@ const Header = () => {
             </div>
 
             <NavLink className="text-lg font-semibold" to="/about" onClick={() => setMenuOpen(false)}>Support</NavLink>
-            <NavLink to="/contact" onClick={() => setMenuOpen(false)}>
+            <NavLink to="/login" onClick={() => setMenuOpen(false)}>
               <button className="bg-[#9D256B] text-lg font-semibold text-white px-4 py-2 rounded-md ">
                 Login
               </button>
